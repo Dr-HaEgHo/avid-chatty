@@ -79,7 +79,8 @@ const Signup = () => {
         phoneNumber: "",
         email: "",
         password: "",
-        confirmPassword:"",
+        confirmPassword: "",
+        
     });
 
     const handleInputChange = (e) => {
@@ -117,10 +118,22 @@ const Signup = () => {
                             fullname: form.fullName,
                             email: form.email,
                             phone_number: form.phoneNumber,
-                            password: form.password
+                            password: form.password,
+                            status: "online"
                         }
-                        setDoc(doc(db, "users", form.email), new_user).then(() => route(""))
+                        setDoc(doc(db, "users", form.email), new_user).then(() => {
+                            localStorage.setItem("Email", form.email)
+                            route("")
+                        })
                         setLoading(false)
+                        setForm({
+                            fullName: "",
+                            phoneNumber: "",
+                            email: "",
+                            password: "",
+                            confirmPassword:"",
+                            
+                        })
                     }).catch(err => {
                         console.log(err.message);
                         if (err.message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
@@ -144,11 +157,11 @@ const Signup = () => {
                   <h1>Signup</h1>
                      <div className={classes.siMainForm}>
                          <form>
-                             <input onChange={handleInputChange} name='fullName' type="text" placeholder='Full Name' />
-                             <input onChange={handleInputChange} name='phoneNumber' type="number" placeholder='Phone Number' />
-                             <input onChange={handleInputChange} name='email' type="email" placeholder='Email'/>
-                             <input onChange={handleInputChange} name='password' type="password" placeholder='Password' />
-                          <input onChange={handleInputChange} name='confirmPassword' type="password" placeholder='Password' />
+                             <input onChange={handleInputChange} value={form.fullName} name='fullName' type="text" placeholder='Full Name' />
+                             <input onChange={handleInputChange} value={form.phoneNumber} name='phoneNumber' type="number" placeholder='Phone Number' />
+                             <input onChange={handleInputChange} value={form.email} name='email' type="email" placeholder='Email'/>
+                             <input onChange={handleInputChange} value={form.password} name='password' type="password" placeholder='Password' />
+                             <input onChange={handleInputChange} value={form.confirmPassword} name='confirmPassword' type="password" placeholder='Password' />
                           {errorMsg && <p>{ errorMsg }</p> }
                           <button onClick={handleSubmit} type='submit'>{ loading ? "Signing up..." : "Sign Up" }</button>
                          </form>
