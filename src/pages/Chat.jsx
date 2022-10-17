@@ -13,7 +13,7 @@ const myStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = () => {
+const Chat = () => {
   const classes = myStyles();
   const navigate = useNavigate();
 
@@ -30,4 +30,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Chat;
