@@ -83,6 +83,12 @@ const myStyles = makeStyles((theme) => ({
     fontSize: "22px",
     color: "blue",
   },
+  btn: {
+    width: "96%",
+        padding: " .8rem",
+        border: "none",
+        background: "#ff7200",
+  }
 }));
 
 const Sidebar = () => {
@@ -145,7 +151,6 @@ const Sidebar = () => {
                       borderRadius: "50%",
                       position: "absolute",
                       top: "0px",
-                      //   right:"0px",
                       zIndex: "30",
                     }}
                   ></div>
@@ -164,7 +169,7 @@ const Sidebar = () => {
               </div>
             ))}
         </div>
-        <button onClick={() => logout()}>Logout</button>
+        <button className={classes.btn} onClick={() => logout()} >Logout</button>
       </div>
     </div>
   );
