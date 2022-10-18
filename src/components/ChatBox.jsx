@@ -14,11 +14,28 @@ import {
 import db from "../store/server.config";
 
 const useStyles = makeStyles((theme) => ({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0.6em',
+      background:"#ff720000"
+    },
+    '*::-webkit-scrollbar-track': {
+      // '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: '#ff720099',
+      borderRadius:"20px"
+      // outline: '1px solid slategrey'
+    }
+  },
   no_chat_box: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
+  chatBody: {
+    overflowY: "scroll",
+  }  ,
   own: {
     width: "100%",
     display: "flex",
@@ -84,7 +101,7 @@ const ChatBox = () => {
   }, [messages]);
 
   return (
-    <div>
+    <div className={classes.chatBody} >
       <div className={classes.msg_body}>
         {messages && (
           <>
