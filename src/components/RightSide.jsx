@@ -59,11 +59,11 @@ const myStyles = makeStyles((theme) => ({
   },
   btn: {
     width: "10%",
-    height: 40,
     background: "#ff7200cc",
     border: "none",
     cursor: "pointer",
     color: "#fff",
+    padding:".8rem 0",
     transition: ".2s ease all",
     "&:active": {
       background: "#ff7200",
