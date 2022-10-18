@@ -27,12 +27,15 @@ const myStyles = makeStyles((theme) => ({
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    position:"relative",
   },
   header: {
     display: "flex",
     alignItems: "center",
     padding: 10,
     background: "#ccc",
+    position: "sticky",
+    top:"0px"
   },
   header_image: {
     width: 50,
@@ -45,23 +48,26 @@ const myStyles = makeStyles((theme) => ({
     marginTop: "auto",
     display: "flex",
     alignItems: "center",
-    marginBottom: 20,
   },
   text_input: {
     outline: "none",
     border: "none",
-    background: "rgb(235, 235, 235)",
+    background: "rgba(0, 0, 0, 0.3)",
     width: "90%",
-    height: 40,
     margin: "auto",
-    padding: 10,
+    padding: ".8rem",
   },
   btn: {
     width: "10%",
-    height: 40,
-    background: "#ccc",
+    background: "#ff7200cc",
     border: "none",
     cursor: "pointer",
+    color: "#fff",
+    padding:".8rem 0",
+    transition: ".2s ease all",
+    "&:active": {
+      background: "#ff7200",
+    }
   },
   form: {
     display: "flex",
@@ -80,6 +86,7 @@ const myStyles = makeStyles((theme) => ({
 }));
 
 const RightSide = () => {
+
   const classes = myStyles();
   const { id } = useParams();
   const [currentChatUserData, setCurrentChatUserData] = useState(null);
@@ -97,29 +104,32 @@ const RightSide = () => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    if (text === "") return;
 
-    const messageData = {
+    if (text === "") {
+      return
+    } else {
+      // alert(currentUser.uid);
+
+      const messageData = {
       message: text,
-      createdAt: moment(new Date()).format("MMM DD YYYY, hh:mm A"),
+      createdAt: moment(new Date()).format("MMM DD YYYY, hh:mm:ss A"),
       from: currentUser.uid,
       to: id,
       status: "unread",
       participants: [currentUser.uid, id],
     };
 
-    const docId =
-      currentUser.uid > id
-        ? `${currentUser.uid + id}`
-        : `${id + currentUser.uid}`;
-
+    const docId = currentUser.uid > id ? `${currentUser.uid + id}` : `${id + currentUser.uid}`;
     addDoc(collection(db, "messages", docId, "chat"), messageData);
     setText("");
-  };
+    
+    }
+    };
+    
 
-  useEffect(() => {
-    getCurrentChat();
-  }, [id]);
+    useEffect(() => {
+      getCurrentChat();
+    }, [id]);
 
   return (
     <div className={classes.rightSide}>
@@ -167,5 +177,6 @@ const RightSide = () => {
     </div>
   );
 };
+
 
 export default RightSide;

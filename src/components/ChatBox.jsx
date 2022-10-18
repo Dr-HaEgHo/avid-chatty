@@ -12,13 +12,31 @@ import {
   where,
 } from "firebase/firestore";
 import db from "../store/server.config";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0.6em',
+      background:"#ff720000"
+    },
+    '*::-webkit-scrollbar-track': {
+      // '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: '#ff720099',
+      borderRadius:"20px"
+      // outline: '1px solid slategrey'
+    }
+  },
   no_chat_box: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
+  chatBody: {
+    overflowY: "scroll",
+  }  ,
   own: {
     width: "100%",
     display: "flex",
@@ -50,6 +68,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 300,
     color: "#fff",
   },
+  chat_time: {
+    color: "#ccc",
+    marginTop: 10,
+    fontSize: 12,
+    textAlign: 'right'
+  }
 }));
 
 const ChatBox = () => {
@@ -84,7 +108,7 @@ const ChatBox = () => {
   }, [messages]);
 
   return (
-    <div>
+    <div className={classes.chatBody} >
       <div className={classes.msg_body}>
         {messages && (
           <>
@@ -104,6 +128,7 @@ const ChatBox = () => {
                         }
                       >
                         {msg.message}
+                      <p className={classes.chat_time}>{moment(msg.createdAt).format("hh:mm A")}</p>
                       </p>
                     </div>
                   </div>

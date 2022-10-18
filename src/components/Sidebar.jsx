@@ -20,19 +20,26 @@ const myStyles = makeStyles((theme) => ({
     flex: "1",
     background: "#f5f5f5",
     height: "100vh",
-    padding: "3rem 0",
+    padding: "0rem 0",
     borderRight: "1px #e1e1e1 solid",
+  },
+  container: {
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
   },
   siHeader: {
     width: "100%",
     color: "#333",
     margin: "auto",
-    padding: ".6rem 2rem",
+    padding: "5rem 2rem .6rem 2rem",
     borderBottom: "1px #e1e1e1 solid",
   },
   siChatList: {
-    height: "400px",
+    height: "100%",
     padding: ".4rem",
+    overflowY: "scroll",
   },
   picture: {
     width: " 50px",
@@ -83,11 +90,16 @@ const myStyles = makeStyles((theme) => ({
     fontSize: "22px",
     color: "blue",
   },
-  btn: {
-    width: "96%",
-        padding: " .8rem",
+  logout:{
+      flex: "1",
+      "& button": {
         border: "none",
-        background: "#ff7200",
+        background:"#999",
+        width:"100%",
+        color: "white",
+        padding: ".8rem ",
+        fontSize:"14px"
+      }
   }
 }));
 
@@ -100,7 +112,7 @@ const Sidebar = () => {
   const logout = () => {
     auth.signOut();
     localStorage.clear()
-    navigate("/sign-up");
+    navigate("/sign-in");
   };
 
   const [read, setRead] = useState("seen");
@@ -169,7 +181,9 @@ const Sidebar = () => {
               </div>
             ))}
         </div>
-        <button className={classes.btn} onClick={() => logout()} >Logout</button>
+        <div className={classes.logout}>
+            <button onClick={() => logout()}>Logout</button>
+        </div>
       </div>
     </div>
   );
