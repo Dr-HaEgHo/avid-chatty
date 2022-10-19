@@ -12,6 +12,7 @@ import {
   where,
 } from "firebase/firestore";
 import db from "../store/server.config";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -67,6 +68,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 300,
     color: "#fff",
   },
+  chat_time: {
+    color: "#ccc",
+    marginTop: 10,
+    fontSize: 12,
+    textAlign: 'right'
+  }
 }));
 
 const ChatBox = () => {
@@ -111,6 +118,7 @@ const ChatBox = () => {
                   <div
                     className={msg.from === currentUserId ? classes.own : classes.no_own}
                     ref={scrollref}
+                    key={msg.id}
                   >
                     <div>
                       <p
@@ -121,6 +129,7 @@ const ChatBox = () => {
                         }
                       >
                         {msg.message}
+                      <p className={classes.chat_time}>{moment(msg.createdAt).format("hh:mm A")}</p>
                       </p>
                     </div>
                   </div>
