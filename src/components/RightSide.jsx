@@ -3,8 +3,11 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
+  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
@@ -115,12 +118,24 @@ const RightSide = () => {
       createdAt: moment(new Date()).format("MMM DD YYYY, hh:mm:ss A"),
       from: currentUser.uid,
       to: id,
-      status: "unread",
-      participants: [currentUser.uid, id],
     };
 
     const docId = currentUser.uid > id ? `${currentUser.uid + id}` : `${id + currentUser.uid}`;
+
+    const lastMessage = {
+      message: text,
+      createdAt: moment(new Date()).format("MMM DD YYYY, hh:mm:ss A"),
+      from: currentUser.uid,
+      to: id,
+      unread: true,
+    }
+
+    const local_email = localStorage.getItem("Email")
+    const docRef = doc(db, "users", local_email)
+    await updateDoc(docRef, lastMessage)
+
     addDoc(collection(db, "messages", docId, "chat"), messageData);
+    setDoc(doc(db, "last_message", docId), lastMessage)
     setText("");
     
     }

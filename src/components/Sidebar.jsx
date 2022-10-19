@@ -14,6 +14,8 @@ import {
   where,
 } from "firebase/firestore";
 import { GlobalContext } from "../store/context";
+import { useParams } from "react-router-dom";
+import moment from "moment";
 
 const myStyles = makeStyles((theme) => ({
   sidebar: {
@@ -80,7 +82,7 @@ const myStyles = makeStyles((theme) => ({
   timeRead: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "spaxe-between",
+    justifyContent: "space-between",
   },
   sentIcon: {
     fontSize: "22px",
@@ -100,6 +102,12 @@ const myStyles = makeStyles((theme) => ({
         padding: ".8rem ",
         fontSize:"14px"
       }
+  },
+  message_time: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%'
   }
 }));
 
@@ -108,14 +116,14 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [friends, setFriends] = useState();
   const { currentUser } = useContext(GlobalContext);
+  const { id } = useParams();
+  const [lastMessage, setLastMessage] = useState(null);
 
   const logout = () => {
     auth.signOut();
     localStorage.clear()
     navigate("/sign-in");
   };
-
-  const [read, setRead] = useState("seen");
 
 
   const fetchUsers = async () => {
@@ -131,9 +139,35 @@ const Sidebar = () => {
     });
   };
 
+  function truncateString(str, num) {
+    if (str.length > num) {
+      return str.slice(0, num) + "...";
+    } else {
+      return str;
+    }
+  }
+
+  const fetchLastMessage = () => {
+    const currentUserId = localStorage.getItem("CurrentUserId")
+      // if(id) {
+      //   const docId = currentUserId > id ? `${currentUserId + id}` : `${id + currentUserId}`;
+      //   const docRef = doc(db, "last_message", docId);
+  
+      // onSnapshot(docRef, snapshot => {
+      //   console.log(snapshot.data())
+      //   setLastMessage(snapshot.data())
+      // })
+      // }
+      
+  }
+
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    fetchLastMessage();
+  }, [id])
 
   return (
     <div className={classes.sidebar}>
@@ -159,7 +193,7 @@ const Sidebar = () => {
                     style={{
                       width: "12px",
                       height: "12px",
-                      background: friend.status === "online" ? "green" : "red",
+                      background: friend.status === "online" ? "#59cc51" : "#ccc",
                       borderRadius: "50%",
                       position: "absolute",
                       top: "0px",
@@ -172,10 +206,13 @@ const Sidebar = () => {
                 </div>
                 <div className={classes.nameMsg}>
                   <h4>{friend.fullname}</h4>
-                  <p>{friend.lastMessage}</p>
+                  <div className={classes.message_time}>
+                  {/* <p>{friend.uid === id && truncateString(lastMessage?.message, 15)}</p> */}
+                  {/* <p>{friend.uid === id && moment(lastMessage?.createdAt).format("hh:mm A")}</p> */}
+                  </div>
                 </div>
                 <div className={classes.timeRead}>
-                  <p>17:62 PM</p>
+                  
                   {friend.icon}
                 </div>
               </div>

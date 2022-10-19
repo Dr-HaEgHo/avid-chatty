@@ -118,6 +118,7 @@ const ChatBox = () => {
                   <div
                     className={msg.from === currentUserId ? classes.own : classes.no_own}
                     ref={scrollref}
+                    key={msg.id}
                   >
                     <div>
                       <p

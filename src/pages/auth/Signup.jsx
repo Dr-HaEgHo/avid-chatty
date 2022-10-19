@@ -117,6 +117,7 @@ const Signup = () => {
               password: form.password,
               status: "online",
               uid: user.user.uid,
+              lastMessage: {}
             };
             setDoc(doc(db, "users", form.email), new_user).then(() => {
               localStorage.setItem("Email", form.email);

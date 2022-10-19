@@ -106,6 +106,7 @@ const Signup = () => {
             setErrorMsg("User has been signed in! Vuuleesh");
             localStorage.setItem("Email", form.email);
             localStorage.setItem("CurrentUserId", user.user.uid);
+            
           })
           .then(() => {
             route("");
